@@ -16,6 +16,21 @@ class ParsedPageRecord(BaseModel):
     page_num: int = Field(ge=1)
     text: str
     metadata: dict[str, Any] = Field(default_factory=dict)
+    parsing_warnings: list[str] = Field(default_factory=list)
+
+
+class ParsedDocumentArtifact(BaseModel):
+    """Parsed document artifact saved for inspectable downstream use."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    doc_id: str
+    title: str
+    source_path: str
+    page_count: int = Field(ge=1)
+    metadata: dict[str, Any] = Field(default_factory=dict)
+    parsing_warnings: list[str] = Field(default_factory=list)
+    pages: list[ParsedPageRecord] = Field(default_factory=list)
 
 
 class ChunkMetadata(BaseModel):

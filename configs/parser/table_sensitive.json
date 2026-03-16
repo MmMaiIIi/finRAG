@@ -3,7 +3,7 @@
   "pdf_backend_table": "pdfplumber",
   "enable_pdfplumber_fallback": true,
   "prefer_pdfplumber_for_table_like_pages": true,
-  "min_text_chars_for_fallback": 20,
+  "min_text_chars_for_fallback": 60,
   "preserve_page_level_provenance": true,
   "output_formats": ["json", "jsonl", "llamaindex_jsonl"]
 }

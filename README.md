@@ -1,99 +1,73 @@
-# finRAG (Phase 0 Scaffold)
+# finRAG (Phase 1: Ingestion + Parsing)
 
-Framework-first Chinese financial PDF RAG project scaffold.  
-This phase only prepares repository structure, dependencies, typed interfaces, configs, and smoke tests.
+Framework-first Chinese financial PDF RAG project based on LlamaIndex.
 
-## Principles
+## Current Stage
 
-- LlamaIndex is the primary orchestration layer.
-- Reuse mature components first, customize only project-specific gaps.
-- Preserve page-level provenance (`doc_id`, title, source path, page range).
-- Keep intermediate artifacts inspectable.
-- No fabricated citations, metrics, or claims.
+Phase 1 is implemented: PDF ingestion and page-level parsing.
 
-## What Phase 0 Includes
+- Primary parser: PyMuPDF
+- Optional fallback/table-sensitive support: pdfplumber
+- Output artifacts are inspectable under `data/parsed/`
+- Page-level provenance is preserved for future citations/retrieval
 
-- Repository layout from `AGENTS.md`
-- Python project setup (`pyproject.toml`, `requirements.txt`)
-- Config folders and default JSON configs
-- Thin typed interfaces:
-  - `ParsedPageRecord`
-  - `ChunkMetadata`
-  - `RetrievalResult`
-  - `EvaluationSample`
-- Config and JSONL utility functions
-- CLI placeholders in `scripts/`:
-  - `ingest_and_parse.py`
-  - `build_index.py`
-  - `ask.py`
-  - `run_eval.py`
-  - `launch_demo.py`
-- Synthetic sample data and smoke tests
+Phase 1 does **not** implement indexing, retrieval, reranking, or generation.
 
-## What Phase 0 Explicitly Does Not Include
+## Framework-First Architecture
 
-- Real PDF parsing pipeline
-- Real dense/sparse retrieval
-- Real reranking
-- Real answer generation
-- Real RAG evaluation loop
+LlamaIndex remains the primary orchestration layer for later stages:
 
-## Planned Framework Usage (Later Phases)
+1. Parse/normalize pages (current phase)
+2. Build nodes/chunks (next)
+3. Dense retrieval with FAISS
+4. BM25 retrieval and hybrid fusion
+5. Reranking
+6. Grounded answer synthesis with citations and refusal
 
-- Ingestion and node pipeline: LlamaIndex document + node abstractions
-- Dense retrieval: LlamaIndex + FAISS backend
-- Sparse retrieval: BM25 (rank_bm25), fused with dense results
-- Reranking: FlagEmbedding reranker integration
-- Query engine and response synthesis: LlamaIndex query engine
-- Evaluation: RAGAS + project-specific offline QA set
+In Phase 1, parsed records are exported as node-ready JSONL (`text` + `metadata`) so they can map directly into LlamaIndex `Document` objects later.
 
-## Repository Layout
+## Parsing Output
 
-```text
-.
-├─ AGENTS.md
-├─ README.md
-├─ pyproject.toml
-├─ requirements.txt
-├─ configs/
-│  ├─ parser/default.json
-│  ├─ retrieval/default.json
-│  ├─ generation/default.json
-│  └─ eval/default.json
-├─ data/
-│  ├─ raw_pdfs/
-│  ├─ parsed/
-│  ├─ indexes/
-│  ├─ eval/synthetic_eval.jsonl
-│  └─ demo_samples/synthetic_pages.jsonl
-├─ docs/
-│  ├─ architecture.md
-│  ├─ experiments/
-│  ├─ decisions/
-│  └─ badcases/
-├─ scripts/
-│  ├─ ingest_and_parse.py
-│  ├─ build_index.py
-│  ├─ ask.py
-│  ├─ run_eval.py
-│  └─ launch_demo.py
-├─ src/
-│  └─ rag_fin/
-│     ├─ loaders/
-│     ├─ parsing/
-│     ├─ indexing/
-│     ├─ retrieval/
-│     ├─ rerank/
-│     ├─ generation/
-│     ├─ eval/
-│     ├─ demo/
-│     ├─ utils/
-│     └─ schemas.py
-└─ tests/
-```
+Each parsed page includes:
 
-## Quick Validation
+- `doc_id`
+- `title`
+- `source_path`
+- `page_num`
+- `text` (cleaned)
+- `metadata`
+- `parsing_warnings`
+
+Each parsed document artifact includes:
+
+- document-level metadata
+- page count
+- list of parsed pages
+
+## Key Commands
 
 ```bash
+python scripts/ingest_and_parse.py --config default --write-bundle
 pytest
+```
+
+## Directory Highlights
+
+```text
+configs/parser/
+  default.json
+  table_sensitive.json
+
+data/raw_pdfs/
+  *.pdf
+
+data/parsed/
+  <doc_id>.parsed.json
+  <doc_id>.pages.jsonl
+  <doc_id>.llamaindex.jsonl
+
+src/rag_fin/parsing/pdf_parser.py
+scripts/ingest_and_parse.py
+tests/test_parsing.py
+docs/decisions/phase1_parser_framework_vs_custom.md
 ```
