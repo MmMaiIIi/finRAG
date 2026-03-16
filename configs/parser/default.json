@@ -1,0 +1,6 @@
+{
+  "pdf_backend_primary": "pymupdf",
+  "pdf_backend_table": "pdfplumber",
+  "preserve_page_level_provenance": true,
+  "output_format": "jsonl"
+}

@@ -1,0 +1,7 @@
+{
+  "dense_backend": "faiss",
+  "sparse_backend": "rank_bm25",
+  "embedding_model": "BAAI/bge-large-zh-v1.5",
+  "reranker_model": "BAAI/bge-reranker-v2-m3",
+  "top_k": 10
+}

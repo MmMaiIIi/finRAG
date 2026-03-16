@@ -1,0 +1,5 @@
+{
+  "framework": "ragas",
+  "metrics": ["recall@5", "recall@10", "citation_validity", "answer_correctness", "refusal_precision"],
+  "log_badcases": true
+}

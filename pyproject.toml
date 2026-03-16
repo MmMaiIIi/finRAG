@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "finrag"
+version = "0.1.0"
+description = "Framework-first Chinese financial PDF RAG scaffold built around LlamaIndex."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "llama-index>=0.11.0",
+  "faiss-cpu>=1.8.0",
+  "rank-bm25>=0.2.2",
+  "FlagEmbedding>=1.2.10",
+  "PyMuPDF>=1.24.0",
+  "pdfplumber>=0.11.0",
+  "pydantic>=2.7.0",
+  "pytest>=8.0.0",
+  "streamlit>=1.35.0",
+  "ragas>=0.2.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"

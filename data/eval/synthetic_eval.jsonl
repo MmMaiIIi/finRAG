@@ -1,0 +1,2 @@
+{"sample_id":"eval_001","question":"What changed in revenue?","expected_answer":"Revenue increased by 10 percent year over year.","expected_citations":[{"doc_id":"doc_fin_001","page_start":1,"page_end":1}],"unanswerable":false,"metadata":{"split":"dev","synthetic":true}}
+{"sample_id":"eval_002","question":"What is the debt maturity schedule?","expected_answer":null,"expected_citations":[],"unanswerable":true,"metadata":{"split":"dev","synthetic":true}}

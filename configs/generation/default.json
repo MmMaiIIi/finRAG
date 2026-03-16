@@ -1,0 +1,6 @@
+{
+  "llm_model": "Qwen/Qwen2.5-7B-Instruct",
+  "citation_required": true,
+  "refusal_enabled": true,
+  "refusal_threshold": 0.25
+}
