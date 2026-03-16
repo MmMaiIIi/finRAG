@@ -1,2 +1,0 @@
-"""finRAG source package."""
-
