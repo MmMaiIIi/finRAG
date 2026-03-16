@@ -1,0 +1,10 @@
+embedding:
+  provider: local_stub
+  model_name: text-embedding-placeholder
+  dim: 768
+
+generation:
+  provider: local_stub
+  model_name: answer-placeholder
+  temperature: 0.0
+  max_tokens: 512
