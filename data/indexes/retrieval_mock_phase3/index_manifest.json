@@ -1,0 +1,33 @@
+{
+  "stage": "phase3_hybrid_ready_retrieval_baseline",
+  "dense_backend": "faiss",
+  "sparse_backend": "rank_bm25",
+  "embedding_model": "mock",
+  "embedding_device": "cpu",
+  "mock_embedding_dim": 32,
+  "chunk_size": 180,
+  "chunk_overlap": 30,
+  "top_k": 3,
+  "dense_top_k": 3,
+  "bm25_top_k": 3,
+  "fused_top_n": 4,
+  "rerank_top_n": 3,
+  "fusion_strategy": "rrf",
+  "rrf_k": 60,
+  "dense_weight": 1.0,
+  "bm25_weight": 1.0,
+  "fusion_score_threshold": null,
+  "reranker_model": "mock",
+  "reranker_backend": "auto",
+  "reranker_use_fp16": false,
+  "rerank_score_threshold": null,
+  "parsed_pages": 4,
+  "skipped_empty_pages": 0,
+  "documents_indexed": 4,
+  "chunks_indexed": 4,
+  "artifacts": {
+    "chunks_jsonl": "D:/Workspace/LLM Intern/PJ2/finRAG/data/indexes/retrieval_mock_phase3/chunks.jsonl",
+    "dense_dir": "D:/Workspace/LLM Intern/PJ2/finRAG/data/indexes/retrieval_mock_phase3/dense",
+    "bm25_json": "D:/Workspace/LLM Intern/PJ2/finRAG/data/indexes/retrieval_mock_phase3/bm25/bm25_corpus.json"
+  }
+}

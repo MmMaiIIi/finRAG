@@ -1,0 +1,317 @@
+{
+  "query": "manufacturing support policy",
+  "mode": "hybrid",
+  "dense": {
+    "query": "manufacturing support policy",
+    "retriever": "dense_faiss",
+    "count": 3,
+    "results": [
+      {
+        "rank": 1,
+        "score": 0.0,
+        "retrieval_source": "dense",
+        "chunk_id": "81bb5506-85d9-443f-9673-be2da480fbff",
+        "doc_id": "phase1_ascii_sample",
+        "title": "Phase1 ASCII Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_ascii_sample.pdf",
+        "page_start": 1,
+        "page_end": 1,
+        "citation": "phase1_ascii_sample p.1",
+        "text": "Financial report sample: gross margin improved 2.1 pts.",
+        "debug": {
+          "dense_rank": 1,
+          "dense_score": 0.0,
+          "bm25_rank": null,
+          "bm25_score": null,
+          "rrf_score": 0.01639344262295082,
+          "pre_rerank_rank": 3,
+          "rerank_score": 0.055
+        }
+      },
+      {
+        "rank": 2,
+        "score": 0.0,
+        "retrieval_source": "dense",
+        "chunk_id": "ad8628ad-2a08-4415-8116-4a01ec1c72d7",
+        "doc_id": "phase1_ascii_sample",
+        "title": "Phase1 ASCII Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_ascii_sample.pdf",
+        "page_start": 2,
+        "page_end": 2,
+        "citation": "phase1_ascii_sample p.2",
+        "text": "Policy sample: fiscal support for manufacturing upgrades.",
+        "debug": {
+          "dense_rank": 2,
+          "dense_score": 0.0,
+          "bm25_rank": 1,
+          "bm25_score": 2.033514864929289,
+          "rrf_score": 0.03252247488101534,
+          "pre_rerank_rank": 1,
+          "rerank_score": 3.057
+        }
+      },
+      {
+        "rank": 3,
+        "score": 0.0,
+        "retrieval_source": "dense",
+        "chunk_id": "8fba2909-c50e-460e-957b-f59fa57f03b3",
+        "doc_id": "phase1_sample",
+        "title": "Phase1 Synthetic Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_sample.pdf",
+        "page_start": 1,
+        "page_end": 1,
+        "citation": "phase1_sample p.1",
+        "text": "···········10%·",
+        "debug": {
+          "dense_rank": 3,
+          "dense_score": 0.0,
+          "bm25_rank": 3,
+          "bm25_score": 0.0,
+          "rrf_score": 0.031746031746031744,
+          "pre_rerank_rank": 2,
+          "rerank_score": 0.015
+        }
+      }
+    ]
+  },
+  "bm25": {
+    "query": "manufacturing support policy",
+    "retriever": "bm25_rank_bm25",
+    "count": 3,
+    "results": [
+      {
+        "rank": 1,
+        "score": 2.033514864929289,
+        "retrieval_source": "bm25",
+        "chunk_id": "ad8628ad-2a08-4415-8116-4a01ec1c72d7",
+        "doc_id": "phase1_ascii_sample",
+        "title": "Phase1 ASCII Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_ascii_sample.pdf",
+        "page_start": 2,
+        "page_end": 2,
+        "citation": "phase1_ascii_sample p.2",
+        "text": "Policy sample: fiscal support for manufacturing upgrades.",
+        "debug": {}
+      },
+      {
+        "rank": 2,
+        "score": 0.0,
+        "retrieval_source": "bm25",
+        "chunk_id": "fd803359-eba3-4048-a38d-155a312da21a",
+        "doc_id": "phase1_sample",
+        "title": "Phase1 Synthetic Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_sample.pdf",
+        "page_start": 2,
+        "page_end": 2,
+        "citation": "phase1_sample p.2",
+        "text": "··············",
+        "debug": {
+          "dense_rank": null,
+          "dense_score": null,
+          "bm25_rank": 2,
+          "bm25_score": 0.0,
+          "rrf_score": 0.016129032258064516,
+          "pre_rerank_rank": 4,
+          "rerank_score": 0.014
+        }
+      },
+      {
+        "rank": 3,
+        "score": 0.0,
+        "retrieval_source": "bm25",
+        "chunk_id": "8fba2909-c50e-460e-957b-f59fa57f03b3",
+        "doc_id": "phase1_sample",
+        "title": "Phase1 Synthetic Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_sample.pdf",
+        "page_start": 1,
+        "page_end": 1,
+        "citation": "phase1_sample p.1",
+        "text": "···········10%·",
+        "debug": {}
+      }
+    ]
+  },
+  "fused": {
+    "query": "manufacturing support policy",
+    "retriever": "hybrid_rrf",
+    "count": 4,
+    "results": [
+      {
+        "rank": 1,
+        "score": 0.03252247488101534,
+        "retrieval_source": "hybrid_rrf",
+        "chunk_id": "ad8628ad-2a08-4415-8116-4a01ec1c72d7",
+        "doc_id": "phase1_ascii_sample",
+        "title": "Phase1 ASCII Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_ascii_sample.pdf",
+        "page_start": 2,
+        "page_end": 2,
+        "citation": "phase1_ascii_sample p.2",
+        "text": "Policy sample: fiscal support for manufacturing upgrades.",
+        "debug": {
+          "dense_rank": 2,
+          "dense_score": 0.0,
+          "bm25_rank": 1,
+          "bm25_score": 2.033514864929289,
+          "rrf_score": 0.03252247488101534,
+          "pre_rerank_rank": 1,
+          "rerank_score": 3.057
+        }
+      },
+      {
+        "rank": 2,
+        "score": 0.031746031746031744,
+        "retrieval_source": "hybrid_rrf",
+        "chunk_id": "8fba2909-c50e-460e-957b-f59fa57f03b3",
+        "doc_id": "phase1_sample",
+        "title": "Phase1 Synthetic Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_sample.pdf",
+        "page_start": 1,
+        "page_end": 1,
+        "citation": "phase1_sample p.1",
+        "text": "···········10%·",
+        "debug": {
+          "dense_rank": 3,
+          "dense_score": 0.0,
+          "bm25_rank": 3,
+          "bm25_score": 0.0,
+          "rrf_score": 0.031746031746031744,
+          "pre_rerank_rank": 2,
+          "rerank_score": 0.015
+        }
+      },
+      {
+        "rank": 3,
+        "score": 0.01639344262295082,
+        "retrieval_source": "hybrid_rrf",
+        "chunk_id": "81bb5506-85d9-443f-9673-be2da480fbff",
+        "doc_id": "phase1_ascii_sample",
+        "title": "Phase1 ASCII Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_ascii_sample.pdf",
+        "page_start": 1,
+        "page_end": 1,
+        "citation": "phase1_ascii_sample p.1",
+        "text": "Financial report sample: gross margin improved 2.1 pts.",
+        "debug": {
+          "dense_rank": 1,
+          "dense_score": 0.0,
+          "bm25_rank": null,
+          "bm25_score": null,
+          "rrf_score": 0.01639344262295082,
+          "pre_rerank_rank": 3,
+          "rerank_score": 0.055
+        }
+      },
+      {
+        "rank": 4,
+        "score": 0.016129032258064516,
+        "retrieval_source": "hybrid_rrf",
+        "chunk_id": "fd803359-eba3-4048-a38d-155a312da21a",
+        "doc_id": "phase1_sample",
+        "title": "Phase1 Synthetic Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_sample.pdf",
+        "page_start": 2,
+        "page_end": 2,
+        "citation": "phase1_sample p.2",
+        "text": "··············",
+        "debug": {
+          "dense_rank": null,
+          "dense_score": null,
+          "bm25_rank": 2,
+          "bm25_score": 0.0,
+          "rrf_score": 0.016129032258064516,
+          "pre_rerank_rank": 4,
+          "rerank_score": 0.014
+        }
+      }
+    ]
+  },
+  "reranked": {
+    "query": "manufacturing support policy",
+    "retriever": "mock",
+    "count": 3,
+    "results": [
+      {
+        "rank": 1,
+        "score": 3.057,
+        "retrieval_source": "rerank",
+        "chunk_id": "ad8628ad-2a08-4415-8116-4a01ec1c72d7",
+        "doc_id": "phase1_ascii_sample",
+        "title": "Phase1 ASCII Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_ascii_sample.pdf",
+        "page_start": 2,
+        "page_end": 2,
+        "citation": "phase1_ascii_sample p.2",
+        "text": "Policy sample: fiscal support for manufacturing upgrades.",
+        "debug": {
+          "dense_rank": 2,
+          "dense_score": 0.0,
+          "bm25_rank": 1,
+          "bm25_score": 2.033514864929289,
+          "rrf_score": 0.03252247488101534,
+          "pre_rerank_rank": 1,
+          "rerank_score": 3.057
+        }
+      },
+      {
+        "rank": 2,
+        "score": 0.055,
+        "retrieval_source": "rerank",
+        "chunk_id": "81bb5506-85d9-443f-9673-be2da480fbff",
+        "doc_id": "phase1_ascii_sample",
+        "title": "Phase1 ASCII Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_ascii_sample.pdf",
+        "page_start": 1,
+        "page_end": 1,
+        "citation": "phase1_ascii_sample p.1",
+        "text": "Financial report sample: gross margin improved 2.1 pts.",
+        "debug": {
+          "dense_rank": 1,
+          "dense_score": 0.0,
+          "bm25_rank": null,
+          "bm25_score": null,
+          "rrf_score": 0.01639344262295082,
+          "pre_rerank_rank": 3,
+          "rerank_score": 0.055
+        }
+      },
+      {
+        "rank": 3,
+        "score": 0.015,
+        "retrieval_source": "rerank",
+        "chunk_id": "8fba2909-c50e-460e-957b-f59fa57f03b3",
+        "doc_id": "phase1_sample",
+        "title": "Phase1 Synthetic Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_sample.pdf",
+        "page_start": 1,
+        "page_end": 1,
+        "citation": "phase1_sample p.1",
+        "text": "···········10%·",
+        "debug": {
+          "dense_rank": 3,
+          "dense_score": 0.0,
+          "bm25_rank": 3,
+          "bm25_score": 0.0,
+          "rrf_score": 0.031746031746031744,
+          "pre_rerank_rank": 2,
+          "rerank_score": 0.015
+        }
+      }
+    ]
+  },
+  "config": {
+    "dense_top_k": 3,
+    "bm25_top_k": 3,
+    "fused_top_n": 4,
+    "rerank_top_n": 3,
+    "fusion_strategy": "rrf",
+    "rrf_k": 60,
+    "dense_weight": 1.0,
+    "bm25_weight": 1.0,
+    "reranker_model": "mock",
+    "reranker_backend": "auto",
+    "reranker_use_fp16": false,
+    "fusion_score_threshold": null,
+    "rerank_score_threshold": null
+  }
+}

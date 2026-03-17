@@ -15,7 +15,7 @@ from rag_fin.utils.config import load_stage_config, resolve_config_path
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Phase 2 index build for retrieval.")
+    parser = argparse.ArgumentParser(description="Phase 3 index build for hybrid retrieval.")
     parser.add_argument("--config", default="default", help="Retrieval config name.")
     parser.add_argument(
         "--parsed-dir",
@@ -56,12 +56,12 @@ def main() -> int:
     )
     manifest_path = index_dir / "index_manifest.json"
 
-    print(f"[Phase2] Loaded retrieval config: {config_path}")
-    print(f"[Phase2] Parsed dir: {parsed_dir.as_posix()}")
-    print(f"[Phase2] Index dir: {index_dir.as_posix()}")
-    print(f"[Phase2] Indexed chunks: {manifest['chunks_indexed']}")
-    print(f"[Phase2] Manifest: {manifest_path.as_posix()}")
-    print("[Phase2] Build summary:")
+    print(f"[Phase3] Loaded retrieval config: {config_path}")
+    print(f"[Phase3] Parsed dir: {parsed_dir.as_posix()}")
+    print(f"[Phase3] Index dir: {index_dir.as_posix()}")
+    print(f"[Phase3] Indexed chunks: {manifest['chunks_indexed']}")
+    print(f"[Phase3] Manifest: {manifest_path.as_posix()}")
+    print("[Phase3] Build summary:")
     print(json.dumps(manifest, ensure_ascii=False, indent=2))
     return 0
 

@@ -25,6 +25,20 @@ def format_retrieval_results(
     """Normalize retrieval results into inspectable JSON-friendly payload."""
     items: list[dict[str, Any]] = []
     for rank, item in enumerate(results, start=1):
+        debug: dict[str, Any] = {}
+        meta = item.metadata.metadata
+        for key in (
+            "dense_rank",
+            "dense_score",
+            "bm25_rank",
+            "bm25_score",
+            "rrf_score",
+            "pre_rerank_rank",
+            "rerank_score",
+        ):
+            if key in meta:
+                debug[key] = meta[key]
+
         items.append(
             {
                 "rank": rank,
@@ -38,6 +52,7 @@ def format_retrieval_results(
                 "page_end": item.metadata.page_end,
                 "citation": citation_label(item),
                 "text": item.text,
+                "debug": debug,
             }
         )
 

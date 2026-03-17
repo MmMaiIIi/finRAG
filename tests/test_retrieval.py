@@ -37,7 +37,7 @@ def _write_parsed_pages(parsed_dir: Path) -> None:
             "title": "Synthetic Policy Brief",
             "source_path": "data/raw_pdfs/policy_brief.pdf",
             "page_num": 3,
-            "text": "政策支持制造业升级与科技创新融资。",
+            "text": "Policy supports manufacturing upgrades and innovation finance.",
             "metadata": {"domain": "policy"},
             "parsing_warnings": [],
         },
@@ -94,7 +94,7 @@ def test_faiss_retrieval_wiring(built_index: Path) -> None:
 
 def test_bm25_retrieval_wiring(built_index: Path) -> None:
     results = bm25_retrieve(
-        query="政策 科技 创新",
+        query="policy innovation finance",
         index_dir=built_index,
         top_k=2,
     )

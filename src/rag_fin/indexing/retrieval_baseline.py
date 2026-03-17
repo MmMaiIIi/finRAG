@@ -18,7 +18,7 @@ from rag_fin.utils.io import read_jsonl, write_jsonl
 
 
 class RetrievalBuildConfig(BaseModel):
-    """Config for Phase 2 retrieval baseline build."""
+    """Config for Phase 3 retrieval baseline build."""
 
     model_config = ConfigDict(extra="forbid")
 
@@ -32,11 +32,24 @@ class RetrievalBuildConfig(BaseModel):
     top_k: int = Field(default=5, ge=1)
     dense_top_k: int | None = Field(default=None, ge=1)
     bm25_top_k: int | None = Field(default=None, ge=1)
+    fused_top_n: int | None = Field(default=None, ge=1)
+    rerank_top_n: int | None = Field(default=None, ge=1)
+    fusion_strategy: str = "rrf"
+    rrf_k: int = Field(default=60, ge=1)
+    dense_weight: float = Field(default=1.0, gt=0)
+    bm25_weight: float = Field(default=1.0, gt=0)
+    fusion_score_threshold: float | None = None
+    reranker_model: str = "BAAI/bge-reranker-v2-m3"
+    reranker_backend: str = "auto"
+    reranker_use_fp16: bool = False
+    rerank_score_threshold: float | None = None
 
     @model_validator(mode="after")
     def validate_chunking(self) -> "RetrievalBuildConfig":
         if self.chunk_overlap >= self.chunk_size:
             raise ValueError("chunk_overlap must be smaller than chunk_size")
+        if self.fusion_strategy.lower() != "rrf":
+            raise ValueError("fusion_strategy must be 'rrf' in current implementation")
         return self
 
     @property
@@ -46,6 +59,22 @@ class RetrievalBuildConfig(BaseModel):
     @property
     def resolved_bm25_top_k(self) -> int:
         return self.bm25_top_k if self.bm25_top_k is not None else self.top_k
+
+    @property
+    def resolved_fused_top_n(self) -> int:
+        return (
+            self.fused_top_n
+            if self.fused_top_n is not None
+            else max(self.resolved_dense_top_k, self.resolved_bm25_top_k)
+        )
+
+    @property
+    def resolved_rerank_top_n(self) -> int:
+        return (
+            self.rerank_top_n
+            if self.rerank_top_n is not None
+            else min(self.resolved_fused_top_n, self.top_k)
+        )
 
 
 def load_parsed_pages(parsed_dir: str | Path) -> list[ParsedPageRecord]:
@@ -172,7 +201,7 @@ def build_retrieval_baseline(
     index_dir: str | Path,
     config: RetrievalBuildConfig,
 ) -> dict[str, Any]:
-    """End-to-end Phase 2 build: chunking + dense index + BM25 artifacts."""
+    """End-to-end build: chunking + dense index + BM25 artifacts."""
     out_dir = Path(index_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -189,7 +218,7 @@ def build_retrieval_baseline(
     bm25_path = build_bm25_artifact(nodes=nodes, output_dir=out_dir / "bm25")
 
     manifest = {
-        "stage": "phase2_retrieval_baseline",
+        "stage": "phase3_hybrid_ready_retrieval_baseline",
         "dense_backend": config.dense_backend,
         "sparse_backend": config.sparse_backend,
         "embedding_model": config.embedding_model,
@@ -200,6 +229,17 @@ def build_retrieval_baseline(
         "top_k": config.top_k,
         "dense_top_k": config.resolved_dense_top_k,
         "bm25_top_k": config.resolved_bm25_top_k,
+        "fused_top_n": config.resolved_fused_top_n,
+        "rerank_top_n": config.resolved_rerank_top_n,
+        "fusion_strategy": config.fusion_strategy,
+        "rrf_k": config.rrf_k,
+        "dense_weight": config.dense_weight,
+        "bm25_weight": config.bm25_weight,
+        "fusion_score_threshold": config.fusion_score_threshold,
+        "reranker_model": config.reranker_model,
+        "reranker_backend": config.reranker_backend,
+        "reranker_use_fp16": config.reranker_use_fp16,
+        "rerank_score_threshold": config.rerank_score_threshold,
         "parsed_pages": len(pages),
         "skipped_empty_pages": skipped_empty_pages,
         "documents_indexed": len(documents),

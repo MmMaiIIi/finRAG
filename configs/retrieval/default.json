@@ -8,5 +8,16 @@
   "chunk_overlap": 50,
   "top_k": 5,
   "dense_top_k": 5,
-  "bm25_top_k": 5
+  "bm25_top_k": 5,
+  "fused_top_n": 8,
+  "rerank_top_n": 5,
+  "fusion_strategy": "rrf",
+  "rrf_k": 60,
+  "dense_weight": 1.0,
+  "bm25_weight": 1.0,
+  "fusion_score_threshold": null,
+  "reranker_model": "BAAI/bge-reranker-v2-m3",
+  "reranker_backend": "auto",
+  "reranker_use_fp16": false,
+  "rerank_score_threshold": null
 }

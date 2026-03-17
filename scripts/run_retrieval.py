@@ -15,7 +15,7 @@ from rag_fin.utils.config import load_stage_config, resolve_config_path
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Run Phase 2 retrieval baseline.")
+    parser = argparse.ArgumentParser(description="Run Phase 3 hybrid retrieval pipeline.")
     parser.add_argument("query", help="User query text.")
     parser.add_argument("--config", default="default", help="Retrieval config name.")
     parser.add_argument(
@@ -25,8 +25,8 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--mode",
-        choices=["dense", "bm25", "both"],
-        default="both",
+        choices=["dense", "bm25", "hybrid", "both"],
+        default="hybrid",
         help="Retrieval mode.",
     )
     parser.add_argument(
@@ -38,6 +38,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--embedding-model",
         default=None,
         help="Optional embedding model override (must match index build for dense mode).",
+    )
+    parser.add_argument(
+        "--reranker-model",
+        default=None,
+        help="Optional reranker model override (e.g., BAAI/bge-reranker-v2-m3 or mock).",
     )
     return parser
 
@@ -65,6 +70,25 @@ def main() -> int:
     )
     dense_top_k = int(manifest.get("dense_top_k", runtime_cfg.resolved_dense_top_k))
     bm25_top_k = int(manifest.get("bm25_top_k", runtime_cfg.resolved_bm25_top_k))
+    fused_top_n = int(manifest.get("fused_top_n", runtime_cfg.resolved_fused_top_n))
+    rerank_top_n = int(manifest.get("rerank_top_n", runtime_cfg.resolved_rerank_top_n))
+    fusion_strategy = str(manifest.get("fusion_strategy", runtime_cfg.fusion_strategy))
+    rrf_k = int(manifest.get("rrf_k", runtime_cfg.rrf_k))
+    dense_weight = float(manifest.get("dense_weight", runtime_cfg.dense_weight))
+    bm25_weight = float(manifest.get("bm25_weight", runtime_cfg.bm25_weight))
+    reranker_model = (
+        args.reranker_model
+        if args.reranker_model is not None
+        else str(manifest.get("reranker_model", runtime_cfg.reranker_model))
+    )
+    reranker_backend = str(manifest.get("reranker_backend", runtime_cfg.reranker_backend))
+    reranker_use_fp16 = bool(manifest.get("reranker_use_fp16", runtime_cfg.reranker_use_fp16))
+    fusion_score_threshold = manifest.get(
+        "fusion_score_threshold", runtime_cfg.fusion_score_threshold
+    )
+    rerank_score_threshold = manifest.get(
+        "rerank_score_threshold", runtime_cfg.rerank_score_threshold
+    )
 
     payload = run_retrieval(
         query=args.query,
@@ -75,6 +99,17 @@ def main() -> int:
         mock_embedding_dim=mock_embedding_dim,
         dense_top_k=dense_top_k,
         bm25_top_k=bm25_top_k,
+        fused_top_n=fused_top_n,
+        rerank_top_n=rerank_top_n,
+        fusion_strategy=fusion_strategy,
+        rrf_k=rrf_k,
+        dense_weight=dense_weight,
+        bm25_weight=bm25_weight,
+        reranker_model=reranker_model,
+        reranker_backend=reranker_backend,
+        reranker_use_fp16=reranker_use_fp16,
+        rerank_score_threshold=rerank_score_threshold,
+        fusion_score_threshold=fusion_score_threshold,
     )
 
     output_path = (
@@ -86,14 +121,14 @@ def main() -> int:
         output_path=output_path,
     )
 
-    print(f"[Phase2] Loaded retrieval config: {config_path}")
-    print(f"[Phase2] Index dir: {index_dir.as_posix()}")
-    print(f"[Phase2] Mode: {args.mode}")
-    print(f"[Phase2] Saved output: {saved_path.as_posix()}")
+    print(f"[Phase3] Loaded retrieval config: {config_path}")
+    print(f"[Phase3] Index dir: {index_dir.as_posix()}")
+    print(f"[Phase3] Mode: {args.mode}")
+    print(f"[Phase3] Saved output: {saved_path.as_posix()}")
 
-    for section in ("dense", "bm25"):
+    for section in ("dense", "bm25", "fused", "reranked"):
         formatted = payload[section]
-        print(f"[Phase2] {section} results: {formatted['count']}")
+        print(f"[Phase3] {section} results: {formatted['count']}")
         for item in formatted["results"][:3]:
             print(
                 f"  - rank={item['rank']} score={item['score']:.4f} "
