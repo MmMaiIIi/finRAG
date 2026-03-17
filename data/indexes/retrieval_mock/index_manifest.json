@@ -1,0 +1,22 @@
+{
+  "stage": "phase2_retrieval_baseline",
+  "dense_backend": "faiss",
+  "sparse_backend": "rank_bm25",
+  "embedding_model": "mock",
+  "embedding_device": "cpu",
+  "mock_embedding_dim": 32,
+  "chunk_size": 180,
+  "chunk_overlap": 30,
+  "top_k": 3,
+  "dense_top_k": 3,
+  "bm25_top_k": 3,
+  "parsed_pages": 4,
+  "skipped_empty_pages": 0,
+  "documents_indexed": 4,
+  "chunks_indexed": 4,
+  "artifacts": {
+    "chunks_jsonl": "D:/Workspace/LLM Intern/PJ2/finRAG/data/indexes/retrieval_mock/chunks.jsonl",
+    "dense_dir": "D:/Workspace/LLM Intern/PJ2/finRAG/data/indexes/retrieval_mock/dense",
+    "bm25_json": "D:/Workspace/LLM Intern/PJ2/finRAG/data/indexes/retrieval_mock/bm25/bm25_corpus.json"
+  }
+}

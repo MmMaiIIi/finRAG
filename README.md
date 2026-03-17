@@ -1,73 +1,86 @@
-# finRAG (Phase 1: Ingestion + Parsing)
+# finRAG (Phase 2: Retrieval Baseline)
 
-Framework-first Chinese financial PDF RAG project based on LlamaIndex.
+Framework-first Chinese financial PDF RAG project using LlamaIndex as the primary orchestration layer.
 
 ## Current Stage
 
-Phase 1 is implemented: PDF ingestion and page-level parsing.
+Phase 2 is implemented:
 
-- Primary parser: PyMuPDF
-- Optional fallback/table-sensitive support: pdfplumber
-- Output artifacts are inspectable under `data/parsed/`
-- Page-level provenance is preserved for future citations/retrieval
+- Page-level parsed artifacts from Phase 1 are converted into LlamaIndex documents/nodes.
+- Dense retrieval baseline is built with LlamaIndex + FAISS.
+- Lexical retrieval baseline is built with `rank_bm25`.
+- Retrieval outputs are normalized and saved with page citation metadata.
 
-Phase 1 does **not** implement indexing, retrieval, reranking, or generation.
+Out of scope in this phase:
 
-## Framework-First Architecture
+- reranking
+- answer generation
+- refusal logic
 
-LlamaIndex remains the primary orchestration layer for later stages:
+## Retrieval Baseline Pipeline
 
-1. Parse/normalize pages (current phase)
-2. Build nodes/chunks (next)
-3. Dense retrieval with FAISS
-4. BM25 retrieval and hybrid fusion
-5. Reranking
-6. Grounded answer synthesis with citations and refusal
+1. Read parsed page artifacts (`*.pages.jsonl`) from `data/parsed/`.
+2. Build LlamaIndex `Document` objects with provenance metadata.
+3. Chunk with LlamaIndex `SentenceSplitter` (configurable chunk size/overlap).
+4. Build dense FAISS index via LlamaIndex `VectorStoreIndex`.
+5. Build BM25 corpus artifact via `rank_bm25`.
+6. Save inspectable artifacts:
+   - `chunks.jsonl`
+   - `index_manifest.json`
+   - `dense/` persisted LlamaIndex+FAISS files
+   - `bm25/bm25_corpus.json`
+   - retrieval run outputs (`retrieval_outputs/*.json`)
 
-In Phase 1, parsed records are exported as node-ready JSONL (`text` + `metadata`) so they can map directly into LlamaIndex `Document` objects later.
+## Configs
 
-## Parsing Output
+- `configs/retrieval/default.json`: BGE model defaults
+- `configs/retrieval/mock_local.json`: mock embedding profile for local smoke tests
 
-Each parsed page includes:
+Config fields include:
 
-- `doc_id`
-- `title`
-- `source_path`
-- `page_num`
-- `text` (cleaned)
-- `metadata`
-- `parsing_warnings`
+- `embedding_model`
+- `chunk_size`
+- `chunk_overlap`
+- `dense_top_k`
+- `bm25_top_k`
 
-Each parsed document artifact includes:
+## Scripts
 
-- document-level metadata
-- page count
-- list of parsed pages
-
-## Key Commands
+Build index:
 
 ```bash
-python scripts/ingest_and_parse.py --config default --write-bundle
+python scripts/build_index.py --config mock_local --parsed-dir data/parsed --index-dir data/indexes/retrieval_mock
+```
+
+Inspect chunks:
+
+```bash
+python scripts/inspect_chunks.py --index-dir data/indexes/retrieval_mock --limit 5
+```
+
+Run retrieval:
+
+```bash
+python scripts/run_retrieval.py "revenue growth" --config mock_local --index-dir data/indexes/retrieval_mock --mode both
+```
+
+Run tests:
+
+```bash
 pytest
 ```
 
-## Directory Highlights
+## Framework Reuse vs Custom
 
-```text
-configs/parser/
-  default.json
-  table_sensitive.json
+Framework reuse (LlamaIndex):
 
-data/raw_pdfs/
-  *.pdf
+- `Document` representation
+- `SentenceSplitter` node/chunk creation
+- `VectorStoreIndex` dense retrieval orchestration
+- FAISS vector-store integration through `llama-index-vector-stores-faiss`
 
-data/parsed/
-  <doc_id>.parsed.json
-  <doc_id>.pages.jsonl
-  <doc_id>.llamaindex.jsonl
+Minimal custom code:
 
-src/rag_fin/parsing/pdf_parser.py
-scripts/ingest_and_parse.py
-tests/test_parsing.py
-docs/decisions/phase1_parser_framework_vs_custom.md
-```
+- loading parsed page artifacts and preserving page provenance metadata
+- BM25 bridge (`rank_bm25`) and tokenizer for mixed Chinese/alphanumeric text
+- result normalization into inspectable citation-rich JSON output

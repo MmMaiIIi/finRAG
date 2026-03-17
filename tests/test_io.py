@@ -23,6 +23,8 @@ def test_cli_placeholders_show_help() -> None:
     scripts = [
         "ingest_and_parse.py",
         "build_index.py",
+        "inspect_chunks.py",
+        "run_retrieval.py",
         "ask.py",
         "run_eval.py",
         "launch_demo.py",

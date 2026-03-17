@@ -1,0 +1,103 @@
+{
+  "tokenizer": "mixed_zh_en_char_word_v1",
+  "chunks": [
+    {
+      "chunk_id": "bfc4383f-f594-4a09-9800-bf010fefa3e9",
+      "text": "Financial report sample: gross margin improved 2.1 pts.",
+      "tokens": [
+        "financial",
+        "report",
+        "sample",
+        "gross",
+        "margin",
+        "improved",
+        "2",
+        "1",
+        "pts"
+      ],
+      "metadata": {
+        "doc_id": "phase1_ascii_sample",
+        "title": "Phase1 ASCII Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_ascii_sample.pdf",
+        "page_num": 1,
+        "page_start": 1,
+        "page_end": 1,
+        "parsing_warnings": [],
+        "parser_used": "pymupdf",
+        "pdf_metadata": {
+          "format": "PDF 1.7",
+          "title": "Phase1 ASCII Sample"
+        }
+      }
+    },
+    {
+      "chunk_id": "e1ed475d-d4eb-4221-9359-49bfd4c2c822",
+      "text": "Policy sample: fiscal support for manufacturing upgrades.",
+      "tokens": [
+        "policy",
+        "sample",
+        "fiscal",
+        "support",
+        "for",
+        "manufacturing",
+        "upgrades"
+      ],
+      "metadata": {
+        "doc_id": "phase1_ascii_sample",
+        "title": "Phase1 ASCII Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_ascii_sample.pdf",
+        "page_num": 2,
+        "page_start": 2,
+        "page_end": 2,
+        "parsing_warnings": [],
+        "parser_used": "pymupdf",
+        "pdf_metadata": {
+          "format": "PDF 1.7",
+          "title": "Phase1 ASCII Sample"
+        }
+      }
+    },
+    {
+      "chunk_id": "3e6e2f3b-8f43-42fc-8f88-aed2f4d58334",
+      "text": "···········10%·",
+      "tokens": [
+        "10"
+      ],
+      "metadata": {
+        "doc_id": "phase1_sample",
+        "title": "Phase1 Synthetic Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_sample.pdf",
+        "page_num": 1,
+        "page_start": 1,
+        "page_end": 1,
+        "parsing_warnings": [],
+        "parser_used": "pymupdf",
+        "pdf_metadata": {
+          "format": "PDF 1.7",
+          "title": "Phase1 Synthetic Sample"
+        }
+      }
+    },
+    {
+      "chunk_id": "9f78cede-1101-4b92-82fa-52b7db8399ba",
+      "text": "··············",
+      "tokens": [
+        "<empty>"
+      ],
+      "metadata": {
+        "doc_id": "phase1_sample",
+        "title": "Phase1 Synthetic Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_sample.pdf",
+        "page_num": 2,
+        "page_start": 2,
+        "page_end": 2,
+        "parsing_warnings": [],
+        "parser_used": "pymupdf",
+        "pdf_metadata": {
+          "format": "PDF 1.7",
+          "title": "Phase1 Synthetic Sample"
+        }
+      }
+    }
+  ]
+}

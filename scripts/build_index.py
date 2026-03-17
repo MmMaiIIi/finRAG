@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -9,13 +10,12 @@ SRC_DIR = PROJECT_ROOT / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
+from rag_fin.indexing import RetrievalBuildConfig, build_retrieval_baseline
 from rag_fin.utils.config import load_stage_config, resolve_config_path
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        description="Phase 0 placeholder for index building."
-    )
+    parser = argparse.ArgumentParser(description="Phase 2 index build for retrieval.")
     parser.add_argument("--config", default="default", help="Retrieval config name.")
     parser.add_argument(
         "--parsed-dir",
@@ -27,6 +27,11 @@ def build_parser() -> argparse.ArgumentParser:
         default="data/indexes",
         help="Output index artifact directory.",
     )
+    parser.add_argument(
+        "--embedding-model",
+        default=None,
+        help="Optional embedding model override (e.g., BAAI/bge-large-zh-v1.5 or mock).",
+    )
     return parser
 
 
@@ -35,12 +40,29 @@ def main() -> int:
     config_path = resolve_config_path(
         "retrieval", args.config, PROJECT_ROOT / "configs"
     )
-    _ = load_stage_config("retrieval", args.config, PROJECT_ROOT / "configs")
+    config_payload = load_stage_config("retrieval", args.config, PROJECT_ROOT / "configs")
+    if args.embedding_model:
+        config_payload["embedding_model"] = args.embedding_model
+    config = RetrievalBuildConfig.model_validate(config_payload)
 
-    print(f"[Phase0] Loaded retrieval config: {config_path}")
-    print(f"[Phase0] Parsed dir: {args.parsed_dir}")
-    print(f"[Phase0] Index dir: {args.index_dir}")
-    print("[Phase0] Index build pipeline is not implemented yet.")
+    parsed_dir = (PROJECT_ROOT / args.parsed_dir).resolve()
+    index_dir = (PROJECT_ROOT / args.index_dir).resolve()
+    index_dir.mkdir(parents=True, exist_ok=True)
+
+    manifest = build_retrieval_baseline(
+        parsed_dir=parsed_dir,
+        index_dir=index_dir,
+        config=config,
+    )
+    manifest_path = index_dir / "index_manifest.json"
+
+    print(f"[Phase2] Loaded retrieval config: {config_path}")
+    print(f"[Phase2] Parsed dir: {parsed_dir.as_posix()}")
+    print(f"[Phase2] Index dir: {index_dir.as_posix()}")
+    print(f"[Phase2] Indexed chunks: {manifest['chunks_indexed']}")
+    print(f"[Phase2] Manifest: {manifest_path.as_posix()}")
+    print("[Phase2] Build summary:")
+    print(json.dumps(manifest, ensure_ascii=False, indent=2))
     return 0
 
 

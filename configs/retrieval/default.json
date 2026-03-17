@@ -2,6 +2,11 @@
   "dense_backend": "faiss",
   "sparse_backend": "rank_bm25",
   "embedding_model": "BAAI/bge-large-zh-v1.5",
-  "reranker_model": "BAAI/bge-reranker-v2-m3",
-  "top_k": 10
+  "embedding_device": "cpu",
+  "mock_embedding_dim": 64,
+  "chunk_size": 300,
+  "chunk_overlap": 50,
+  "top_k": 5,
+  "dense_top_k": 5,
+  "bm25_top_k": 5
 }

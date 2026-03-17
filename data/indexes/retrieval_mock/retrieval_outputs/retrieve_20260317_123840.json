@@ -1,0 +1,96 @@
+{
+  "query": "manufacturing support",
+  "mode": "both",
+  "dense": {
+    "query": "manufacturing support",
+    "retriever": "dense_faiss",
+    "count": 3,
+    "results": [
+      {
+        "rank": 1,
+        "score": 0.0,
+        "retrieval_source": "dense",
+        "chunk_id": "bfc4383f-f594-4a09-9800-bf010fefa3e9",
+        "doc_id": "phase1_ascii_sample",
+        "title": "Phase1 ASCII Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_ascii_sample.pdf",
+        "page_start": 1,
+        "page_end": 1,
+        "citation": "phase1_ascii_sample p.1",
+        "text": "Financial report sample: gross margin improved 2.1 pts."
+      },
+      {
+        "rank": 2,
+        "score": 0.0,
+        "retrieval_source": "dense",
+        "chunk_id": "e1ed475d-d4eb-4221-9359-49bfd4c2c822",
+        "doc_id": "phase1_ascii_sample",
+        "title": "Phase1 ASCII Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_ascii_sample.pdf",
+        "page_start": 2,
+        "page_end": 2,
+        "citation": "phase1_ascii_sample p.2",
+        "text": "Policy sample: fiscal support for manufacturing upgrades."
+      },
+      {
+        "rank": 3,
+        "score": 0.0,
+        "retrieval_source": "dense",
+        "chunk_id": "3e6e2f3b-8f43-42fc-8f88-aed2f4d58334",
+        "doc_id": "phase1_sample",
+        "title": "Phase1 Synthetic Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_sample.pdf",
+        "page_start": 1,
+        "page_end": 1,
+        "citation": "phase1_sample p.1",
+        "text": "···········10%·"
+      }
+    ]
+  },
+  "bm25": {
+    "query": "manufacturing support",
+    "retriever": "bm25_rank_bm25",
+    "count": 3,
+    "results": [
+      {
+        "rank": 1,
+        "score": 1.355676576619526,
+        "retrieval_source": "bm25",
+        "chunk_id": "e1ed475d-d4eb-4221-9359-49bfd4c2c822",
+        "doc_id": "phase1_ascii_sample",
+        "title": "Phase1 ASCII Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_ascii_sample.pdf",
+        "page_start": 2,
+        "page_end": 2,
+        "citation": "phase1_ascii_sample p.2",
+        "text": "Policy sample: fiscal support for manufacturing upgrades."
+      },
+      {
+        "rank": 2,
+        "score": 0.0,
+        "retrieval_source": "bm25",
+        "chunk_id": "9f78cede-1101-4b92-82fa-52b7db8399ba",
+        "doc_id": "phase1_sample",
+        "title": "Phase1 Synthetic Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_sample.pdf",
+        "page_start": 2,
+        "page_end": 2,
+        "citation": "phase1_sample p.2",
+        "text": "··············"
+      },
+      {
+        "rank": 3,
+        "score": 0.0,
+        "retrieval_source": "bm25",
+        "chunk_id": "3e6e2f3b-8f43-42fc-8f88-aed2f4d58334",
+        "doc_id": "phase1_sample",
+        "title": "Phase1 Synthetic Sample",
+        "source_path": "D:/Workspace/LLM Intern/PJ2/finRAG/data/raw_pdfs/phase1_sample.pdf",
+        "page_start": 1,
+        "page_end": 1,
+        "citation": "phase1_sample p.1",
+        "text": "···········10%·"
+      }
+    ]
+  }
+}
